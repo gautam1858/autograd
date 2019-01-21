@@ -190,6 +190,11 @@ else:
     def test_y0(): unary_ufunc_check(special.y0, lims=[0.2, 20.0], test_complex=False)
     def test_y1(): unary_ufunc_check(special.y1, lims=[0.2, 20.0], test_complex=False)
 
+    def test_i0(): unary_ufunc_check(special.i0, lims=[0.2, 20.0], test_complex=False)
+    def test_i1(): unary_ufunc_check(special.i1, lims=[0.2, 20.0], test_complex=False)
+    def test_iv():  combo_check(special.iv,  [1])(U(1., 50.,4), R(4)**2 + 1.3)
+    def test_ive(): combo_check(special.ive, [1])(U(1., 50.,4), R(4)**2 + 1.3)
+
     def test_erf(): unary_ufunc_check(special.erf, lims=[-3., 3.], test_complex=True)
     def test_erfc(): unary_ufunc_check(special.erfc, lims=[-3., 3.], test_complex=True)
 
@@ -205,3 +210,8 @@ else:
     def test_odeint():
         combo_check(integrate.odeint, [1,2,3])([func], [R(3)], [np.linspace(0.1, 0.2, 4)],
                                                  [(R(3), R(3))])
+
+    ## Linalg
+    def test_sqrtm(): combo_check(spla.sqrtm, modes=['fwd'], order=2)([R(3, 3)])
+    def test_sqrtm(): combo_check(symmetrize_matrix_arg(spla.sqrtm, 0), modes=['fwd', 'rev'], order=2)([R(3, 3)])
+    def test_solve_sylvester(): combo_check(spla.solve_sylvester, [0, 1, 2], modes=['rev', 'fwd'], order=2)([R(3, 3)], [R(3, 3)], [R(3, 3)])
